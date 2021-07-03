@@ -27,7 +27,7 @@ namespace CarParkLibrary
         }
         public double AvailableVolume()
         { 
-            return Mass - MassOfGoods; 
+            return MaxMass - Mass -  MassOfGoods; 
         }
         public override Transport Create()
         {

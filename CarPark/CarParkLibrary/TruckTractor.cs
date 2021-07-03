@@ -9,17 +9,17 @@ namespace CarParkLibrary
     public class TruckTractor : Transport
     {
         public TruckTractor() { }
-        public Transport[] Semitrailers { get; set; }
+        public string Semitrailer { get; set; }
         public double FuelConsumption {get; set;}
 
-       public TruckTractor(string name, double maxMass,double fuelConsumption) : base(name, maxMass)
-       {
-            FuelConsumption = fuelConsumption;
-       }
-        public TruckTractor(string name, double maxMass , double fuelConsumption,Transport[] semitrailers) : base(name, maxMass)
+       //public TruckTractor(string name, double maxMass,double fuelConsumption) : base(name, maxMass)
+       //{
+         //   FuelConsumption = fuelConsumption;
+       //}
+        public TruckTractor(string name, double maxMass , double fuelConsumption,string semitrailer) : base(name, maxMass)
         {
             FuelConsumption = fuelConsumption;
-            Semitrailers = semitrailers;
+            Semitrailer = semitrailer;
         }
         public override Transport Create()
         {

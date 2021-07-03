@@ -9,6 +9,10 @@ namespace CarParkLibrary.DataWork
 {
     public class ListWork
     {
+        /*public List<double> FuelConsumption(double km, TruckTractor truckTractor, Semitrailer semitrailer) 
+        {
+
+        }*/
         public List<Semitrailer> FindSemitrailerByType(string type)
         {
             List<Semitrailer> semitrailers = new List<Semitrailer>();
@@ -41,6 +45,83 @@ namespace CarParkLibrary.DataWork
             }
             return semitrailers2;
 
+        }
+        public Dictionary<string, string> FindСouplingByTypeOfGoods(string typeOfGoods)
+        {
+            List<TruckTractor> truckTractors = new List<TruckTractor>();
+            List<Semitrailer> semitrailers = new List<Semitrailer>();
+            List<TruckTractor> coupling = new List<TruckTractor>();
+            Dictionary<string, string> coupling1 = new Dictionary<string, string>();
+
+            var x = SaxParser.SaxParsing(@"../../CarPark.xml");
+            foreach (var x1 in x)
+            {
+                if (x1 is TruckTractor)
+                    truckTractors.Add((TruckTractor)x1);
+                if (x1 is Semitrailer)
+                    semitrailers.Add((Semitrailer)x1);
+
+            }
+            foreach (var x1 in semitrailers)
+            {
+                foreach (var y1 in truckTractors)
+                    if (x1.TypeOfGoods == typeOfGoods && y1.Semitrailer == x1.ToString())
+                        coupling1.Add(y1.ToString(), y1.Semitrailer);
+
+            }
+            return coupling1;
+
+        }
+
+        //public Dictionary<string, string> FindСouplingForAddGoods()
+        public List<TruckTractor> FindСouplingForAddGoods()
+        {
+            List<TruckTractor> truckTractors = new List<TruckTractor>();
+            List<Semitrailer> semitrailers = new List<Semitrailer>();
+            List<TruckTractor> coupling = new List<TruckTractor>();
+            //Dictionary<string, string> coupling1 = new Dictionary<string, string>();
+
+            var x = SaxParser.SaxParsing(@"../../CarPark.xml");
+            foreach (var x1 in x)
+            {
+                if (x1 is TruckTractor)
+                    truckTractors.Add((TruckTractor)x1);
+                if (x1 is Semitrailer)
+                    semitrailers.Add((Semitrailer)x1);
+
+            }
+            foreach (var x1 in semitrailers)
+            {
+                foreach (var y1 in truckTractors)
+                    if (x1.AvailableVolume() > 0 && y1.Semitrailer == x1.ToString())
+                        coupling.Add(y1);
+                        //coupling1.Add(y1.ToString(), y1.Semitrailer);
+            }
+            //return coupling1;
+            return coupling;
+
+        }
+
+        public double OpportunitiesOfLogisticiansAddGood(TruckTractor truckTractor, string typeOfGoods, double mass)
+        {
+            Semitrailer semitrailer = new Semitrailer();
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                    semitrailer = (Semitrailer)v1;
+            if (semitrailer.AvailableVolume() >= mass && semitrailer.TypeOfGoods == typeOfGoods)
+                semitrailer.MassOfGoods = semitrailer.MassOfGoods + mass;
+            return semitrailer.MassOfGoods;
+        }
+
+        public double OpportunitiesOfLogisticiansMinusGood(TruckTractor truckTractor, string typeOfGoods, double mass)
+        {
+            Semitrailer semitrailer = new Semitrailer();
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                    semitrailer = (Semitrailer)v1;
+            if (semitrailer.MassOfGoods - mass >= 0 && semitrailer.TypeOfGoods == typeOfGoods)
+                semitrailer.MassOfGoods = semitrailer.MassOfGoods - mass;
+            return semitrailer.MassOfGoods;
         }
     }
 }

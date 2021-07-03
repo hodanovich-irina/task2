@@ -19,6 +19,7 @@ namespace CarParkLibrary
             Name = name;
             MaxMass = maxMass;
         }
+
         abstract public Transport Create();
         /// <summary>
         /// Override method ToString()

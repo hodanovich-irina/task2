@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using CarParkLibrary;
+using System.IO;
 
 namespace CarParkLibrary.DataWork
 {
@@ -27,7 +28,7 @@ namespace CarParkLibrary.DataWork
         /// Data parsing
         /// </summary>
         /// <returns>Collection of date's object</returns>
-        public static /*void SaxParsing(string pass) */List<Transport> SaxParsing(string pass)
+        public static List<Transport> SaxParsing(string pass)
         {
             
             List<Transport> transports = new List<Transport>();
@@ -46,31 +47,25 @@ namespace CarParkLibrary.DataWork
                         Transport = new TruckTractor().Create();
                     if (xmlReader.Name == "Semitrailer")
                         Transport = new Semitrailer().Create();
-
-
                     if (xmlReader.HasAttributes)
                         Transport.Name = xmlReader.GetAttribute("name");
-
                     if (xmlReader.ReadToFollowing("maxMass"))
                         Transport.MaxMass = (double)xmlReader.ReadElementContentAs(typeof(System.Double), null);
-
                     if (Transport is TruckTractor)
                     {
                         TruckTractor truckTractor = (TruckTractor)Transport;
                         if (xmlReader.ReadToFollowing("fuelConsumption"))
                             truckTractor.FuelConsumption = (double)xmlReader.ReadElementContentAs(typeof(System.Double), null);
-                        //TruckTractor truckTractor = (TruckTractor)Transport;
-                        //foreach(var v in truckTractor.Semitrailers)
-                        //v.Name = xmlReader.GetAttribute("semitrailer");
+                        if (xmlReader.ReadToFollowing("semitrailer"))
+                            truckTractor.Semitrailer = (string)xmlReader.ReadElementContentAs(typeof(System.String), null);
                     }
-
                     if (Transport is Semitrailer)
                     {
                         Semitrailer semitrailer = (Semitrailer)Transport;
-                        if (xmlReader.HasAttributes)
-                            semitrailer.TypeOfGoods = xmlReader.GetAttribute("typeOfGoods");
-                        if (xmlReader.HasAttributes)
-                            semitrailer.StorageConditions = xmlReader.GetAttribute("storageConditions");
+                        if (xmlReader.ReadToFollowing("typeOfGoods"))
+                            semitrailer.TypeOfGoods = (string)xmlReader.ReadElementContentAs(typeof(System.String), null);
+                        if (xmlReader.ReadToFollowing("storageConditions"))
+                            semitrailer.StorageConditions = (string)xmlReader.ReadElementContentAs(typeof(System.String), null);
                         if (xmlReader.ReadToFollowing("mass"))
                             semitrailer.Mass = (double)xmlReader.ReadElementContentAs(typeof(System.Double), null);
                         if (xmlReader.ReadToFollowing("massOfGoods"))
@@ -102,9 +97,6 @@ namespace CarParkLibrary.DataWork
             settings.Indent = true;
             settings.ConformanceLevel = ConformanceLevel.Document;
             settings.CloseOutput = false;
-
-            //MemoryStream strm = new MemoryStream();
-
             XmlWriter xmlWriter = XmlWriter.Create(pass, settings);
             xmlWriter.WriteStartElement("transport");
             foreach (var w in wL)
@@ -130,15 +122,19 @@ namespace CarParkLibrary.DataWork
                     xmlWriter.WriteString(truckTractor.FuelConsumption.ToString());
                     xmlWriter.WriteEndElement();
                     
+                    xmlWriter.WriteStartElement("semitrailer");
+                    xmlWriter.WriteString(truckTractor.Semitrailer.ToString());
+                    xmlWriter.WriteEndElement();
+                    
                 }
                 if (w is Semitrailer)
                 {
                     Semitrailer semitrailer = (Semitrailer)w;
                     xmlWriter.WriteStartElement("typeOfGoods");
-                    xmlWriter.WriteString(semitrailer.TypeOfGoods);
+                    xmlWriter.WriteString(semitrailer.TypeOfGoods.ToString());
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteStartElement("storageConditions");
-                    xmlWriter.WriteString(semitrailer.StorageConditions);
+                    xmlWriter.WriteString(semitrailer.StorageConditions.ToString());
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteStartElement("mass");
                     xmlWriter.WriteString(semitrailer.Mass.ToString());
@@ -161,6 +157,5 @@ namespace CarParkLibrary.DataWork
             xmlWriter.Close();
 
         }
-
     }
 }
