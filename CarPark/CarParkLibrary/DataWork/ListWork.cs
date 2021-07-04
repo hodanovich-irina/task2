@@ -113,6 +113,17 @@ namespace CarParkLibrary.DataWork
             return semitrailer.MassOfGoods;
         }
 
+        public double OpportunitiesOfLogisticiansFullAddGood(TruckTractor truckTractor, string typeOfGoods)
+        {
+            Semitrailer semitrailer = new Semitrailer();
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                    semitrailer = (Semitrailer)v1;
+            if (semitrailer.AvailableVolume() > 0 && semitrailer.TypeOfGoods == typeOfGoods)
+                semitrailer.MassOfGoods = semitrailer.MassOfGoods + semitrailer.AvailableVolume();
+            return semitrailer.MassOfGoods;
+        }
+
         public double OpportunitiesOfLogisticiansMinusGood(TruckTractor truckTractor, string typeOfGoods, double mass)
         {
             Semitrailer semitrailer = new Semitrailer();
@@ -122,6 +133,32 @@ namespace CarParkLibrary.DataWork
             if (semitrailer.MassOfGoods - mass >= 0 && semitrailer.TypeOfGoods == typeOfGoods)
                 semitrailer.MassOfGoods = semitrailer.MassOfGoods - mass;
             return semitrailer.MassOfGoods;
+        }
+        public double OpportunitiesOfLogisticiansMinusAllGood(TruckTractor truckTractor, string typeOfGoods)
+        {
+            Semitrailer semitrailer = new Semitrailer();
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                    semitrailer = (Semitrailer)v1;
+            if (semitrailer.MassOfGoods > 0 && semitrailer.TypeOfGoods == typeOfGoods)
+                semitrailer.MassOfGoods = 0;
+            return semitrailer.MassOfGoods;
+        }
+        public TruckTractor ReplaceSemitrailer(TruckTractor truckTractor, Semitrailer semitrailer)
+        {
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                if (v1 is TruckTractor && v1 == truckTractor)
+                    truckTractor = (TruckTractor)v1;
+            truckTractor.Semitrailer = semitrailer.ToString();
+            return truckTractor;
+        }
+        public TruckTractor DeleteSemitrailer(TruckTractor truckTractor)
+        {
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                if (v1 is TruckTractor && v1 == truckTractor)
+                    truckTractor = (TruckTractor)v1;
+            truckTractor.Semitrailer = "";
+            return truckTractor;
         }
     }
 }
