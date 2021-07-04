@@ -41,6 +41,8 @@ namespace ConsoleApp1
             Console.WriteLine(work.OpportunitiesOfLogisticiansFullAddGood((TruckTractor)transport, "Бензин"));
             StreamParser parser = new StreamParser();
             parser.SaveDocument(parser.LoadDocument( @"../../CarPark.xml"), @"../../CarPark1.xml");
+            foreach (var v in work.FuelConsumption())
+                Console.WriteLine(v.FuelConsumption);
             Console.WriteLine(work.DeleteSemitrailer((TruckTractor)transport).Semitrailer);
             Console.ReadKey();
         }

@@ -9,10 +9,25 @@ namespace CarParkLibrary.DataWork
 {
     public class ListWork
     {
-        /*public List<double> FuelConsumption(double km, TruckTractor truckTractor, Semitrailer semitrailer) 
+        public List<TruckTractor> FuelConsumption() 
         {
-
-        }*/
+            List<TruckTractor> truckTractors = new List<TruckTractor>();
+            List<Semitrailer> semitrailers = new List<Semitrailer>();
+            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+            {
+                if (v1 is TruckTractor)
+                    truckTractors.Add((TruckTractor)v1);
+                if (v1 is Semitrailer)
+                    semitrailers.Add((Semitrailer)v1);
+            }
+            foreach (var v in truckTractors) 
+            {
+                foreach (var s in semitrailers)
+                    if (v.Semitrailer == s.ToString())
+                        v.FuelConsumption = v.FuelConsumption + ((s.MaxMass - s.AvailableVolume()) / 5);
+            }
+            return truckTractors;
+        }
         public List<Semitrailer> FindSemitrailerByType(string type)
         {
             List<Semitrailer> semitrailers = new List<Semitrailer>();
