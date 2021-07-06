@@ -27,7 +27,7 @@ namespace CarParkLibrary.DataWork
         /// <summary>
         /// Data parsing
         /// </summary>
-        /// <returns>Collection of date's object</returns>
+        /// <returns>Collection of object</returns>
         public static List<Transport> SaxParsing(string pass)
         {
             

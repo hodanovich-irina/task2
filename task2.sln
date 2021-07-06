@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CarPark", "CarPark", "{A9E8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarParkLibrary", "CarPark\CarParkLibrary\CarParkLibrary.csproj", "{855350CE-77CA-49F0-80A4-9A3390CE873E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{37904FAA-0AF4-47C4-B74B-5B47CD3D12B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarParkLibraryUnitTestProject", "CarParkLibraryUnitTestProject\CarParkLibraryUnitTestProject.csproj", "{BA75C541-6B2D-4E79-B673-D63544D2BA1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,10 @@ Global
 		{855350CE-77CA-49F0-80A4-9A3390CE873E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855350CE-77CA-49F0-80A4-9A3390CE873E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{855350CE-77CA-49F0-80A4-9A3390CE873E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37904FAA-0AF4-47C4-B74B-5B47CD3D12B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37904FAA-0AF4-47C4-B74B-5B47CD3D12B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37904FAA-0AF4-47C4-B74B-5B47CD3D12B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37904FAA-0AF4-47C4-B74B-5B47CD3D12B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA75C541-6B2D-4E79-B673-D63544D2BA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA75C541-6B2D-4E79-B673-D63544D2BA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA75C541-6B2D-4E79-B673-D63544D2BA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA75C541-6B2D-4E79-B673-D63544D2BA1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

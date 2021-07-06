@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<transport>
+  <TruckTractor name="MAZ">
+    <maxMass>40</maxMass>
+    <fuelConsumption>10</fuelConsumption>
+    <semitrailer>Renault(36)</semitrailer>
+  </TruckTractor>
+  <TankTruck name="Renault">
+    <maxMass>36</maxMass>
+    <typeOfGoods>Бензин</typeOfGoods>
+    <storageConditions>+5</storageConditions>
+    <mass>10</mass>
+    <massOfGoods>17</massOfGoods>
+    <viewFuel>AI92</viewFuel>
+  </TankTruck>
+  <Refrigerator name="Wielton NJ 3">
+    <maxMass>66</maxMass>
+    <typeOfGoods>Молоко</typeOfGoods>
+    <storageConditions>+3 - +5</storageConditions>
+    <mass>6</mass>
+    <massOfGoods>2</massOfGoods>
+  </Refrigerator>
+  <TruckTractor name="Volvo">
+    <maxMass>77</maxMass>
+    <fuelConsumption>12</fuelConsumption>
+    <semitrailer></semitrailer>
+  </TruckTractor>
+  <TruckTractor name="Ford">
+    <maxMass>33</maxMass>
+    <fuelConsumption>8</fuelConsumption>
+    <semitrailer></semitrailer>
+  </TruckTractor>
+  <TruckTractor name="Scania">
+    <maxMass>55</maxMass>
+    <fuelConsumption>10</fuelConsumption>
+    <semitrailer>Volvo(77)</semitrailer>
+  </TruckTractor>
+  <Refrigerator name="Montracon">
+    <maxMass>32</maxMass>
+    <typeOfGoods>Рыба</typeOfGoods>
+    <storageConditions>-15 - -25</storageConditions>
+    <mass>10</mass>
+    <massOfGoods>12</massOfGoods>
+  </Refrigerator>
+</transport>

@@ -7,8 +7,15 @@ using CarParkLibrary;
 
 namespace CarParkLibrary.DataWork
 {
+    /// <summary>
+    /// Class for work with collections of object
+    /// </summary>
     public class ListWork
     {
+        /// <summary>
+        /// Calculation of fuel consumption
+        /// </summary>
+        /// <returns>collections of truck tractor</returns>
         public List<TruckTractor> FuelConsumption() 
         {
             List<TruckTractor> truckTractors = new List<TruckTractor>();
@@ -28,6 +35,11 @@ namespace CarParkLibrary.DataWork
             }
             return truckTractors;
         }
+        /// <summary>
+        /// Method for finding a semi-trailer by type
+        /// </summary>
+        /// <param name="type">type of semi-trailer</param>
+        /// <returns>collections of semi-trailers</returns>
         public List<Semitrailer> FindSemitrailerByType(string type)
         {
             List<Semitrailer> semitrailers = new List<Semitrailer>();
@@ -42,6 +54,16 @@ namespace CarParkLibrary.DataWork
             }
             return semitrailers;
         }
+        /// <summary>
+        /// Method for finding a semi-trailer by characteristics
+        /// </summary>
+        /// <param name="name">brand of transport</param>
+        /// <param name="maxMass">Lifting capacity</param>
+        /// <param name="typeOfGoods">type of goods</param>
+        /// <param name="storageConditions">storage conditions</param>
+        /// <param name="mass">busy weight</param>
+        /// <param name="massOfGoods">mass of goods</param>
+        /// <returns>collections of semi-trailers</returns>
         public List<Semitrailer> FindSemitrailerByCharacteristics(string name, double maxMass, string typeOfGoods, string storageConditions, double mass, double massOfGoods)
         {
             List<Semitrailer> semitrailers = new List<Semitrailer>();
@@ -61,6 +83,11 @@ namespace CarParkLibrary.DataWork
             return semitrailers2;
 
         }
+        /// <summary>
+        /// Method for find coupling by type of goods
+        /// </summary>
+        /// <param name="typeOfGoods">type of goods</param>
+        /// <returns>dictionary</returns>
         public Dictionary<string, string> FindСouplingByTypeOfGoods(string typeOfGoods)
         {
             List<TruckTractor> truckTractors = new List<TruckTractor>();
@@ -88,13 +115,17 @@ namespace CarParkLibrary.DataWork
 
         }
 
-        //public Dictionary<string, string> FindСouplingForAddGoods()
-        public List<TruckTractor> FindСouplingForAddGoods()
+        
+        /// <summary>
+        /// Method for find coupling for add goods
+        /// </summary>
+        /// <returns>collections of truck tractor</returns>
+        public Dictionary<string, string> FindСouplingForAddGoods()
         {
             List<TruckTractor> truckTractors = new List<TruckTractor>();
+            List<Transport> transports = new List<Transport>();
             List<Semitrailer> semitrailers = new List<Semitrailer>();
-            List<TruckTractor> coupling = new List<TruckTractor>();
-            //Dictionary<string, string> coupling1 = new Dictionary<string, string>();
+            Dictionary<string, string> coupling1 = new Dictionary<string, string>();
 
             var x = SaxParser.SaxParsing(@"../../CarPark.xml");
             foreach (var x1 in x)
@@ -109,71 +140,179 @@ namespace CarParkLibrary.DataWork
             {
                 foreach (var y1 in truckTractors)
                     if (x1.AvailableVolume() > 0 && y1.Semitrailer == x1.ToString())
-                        coupling.Add(y1);
-                        //coupling1.Add(y1.ToString(), y1.Semitrailer);
+                        coupling1.Add(y1.ToString(), y1.Semitrailer);
             }
-            //return coupling1;
-            return coupling;
+            return coupling1;
 
         }
+        /// <summary>
+        /// Inner class for logistic methods
+        /// </summary>
+        public class OpportunitiesOfLogisticians
+        {
+            /// <summary>
+            /// Method for add good in semitrailer
+            /// </summary>
+            /// <param name="truckTractor">truck tractor</param>
+            /// <param name="typeOfGoods">type of goods</param>
+            /// <param name="mass">added mass</param>
+            /// <param name="pathForSaveChange">path for save change</param>
+            /// <returns>new mass</returns>
+            public double OpportunitiesOfLogisticiansAddGood(TruckTractor truckTractor, string typeOfGoods, double mass, string pathForSaveChange)
+            {
+                List<Transport> transports = new List<Transport>();
 
-        public double OpportunitiesOfLogisticiansAddGood(TruckTractor truckTractor, string typeOfGoods, double mass)
-        {
-            Semitrailer semitrailer = new Semitrailer();
-            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
-                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
-                    semitrailer = (Semitrailer)v1;
-            if (semitrailer.AvailableVolume() >= mass && semitrailer.TypeOfGoods == typeOfGoods)
-                semitrailer.MassOfGoods = semitrailer.MassOfGoods + mass;
-            return semitrailer.MassOfGoods;
-        }
+                Semitrailer semitrailer = new Semitrailer();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        semitrailer = (Semitrailer)v1;
+                if (semitrailer.AvailableVolume() >= mass && semitrailer.TypeOfGoods == typeOfGoods)
+                    semitrailer.MassOfGoods = semitrailer.MassOfGoods + mass;
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                {
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        transports.Add((Transport)semitrailer);
+                    else
+                        transports.Add(v1);
+                }
+                SaxParser.AddInXml(transports, pathForSaveChange);
+                return semitrailer.MassOfGoods;
+            }
+            /// <summary>
+            ///  Method for add good in full semitrailer
+            /// </summary>
+            /// <param name="truckTractor">truck tractor</param>
+            /// <param name="typeOfGoods">type of goods</param>
+            /// <param name="pathForSaveChange">path for save change</param>
+            /// <returns>new mass</returns>
+            public double OpportunitiesOfLogisticiansFullAddGood(TruckTractor truckTractor, string typeOfGoods, string pathForSaveChange)
+            {
+                List<Transport> transports = new List<Transport>();
 
-        public double OpportunitiesOfLogisticiansFullAddGood(TruckTractor truckTractor, string typeOfGoods)
-        {
-            Semitrailer semitrailer = new Semitrailer();
-            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
-                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
-                    semitrailer = (Semitrailer)v1;
-            if (semitrailer.AvailableVolume() > 0 && semitrailer.TypeOfGoods == typeOfGoods)
-                semitrailer.MassOfGoods = semitrailer.MassOfGoods + semitrailer.AvailableVolume();
-            return semitrailer.MassOfGoods;
-        }
+                Semitrailer semitrailer = new Semitrailer();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        semitrailer = (Semitrailer)v1;
+                if (semitrailer.AvailableVolume() > 0 && semitrailer.TypeOfGoods == typeOfGoods)
+                    semitrailer.MassOfGoods = semitrailer.MassOfGoods + semitrailer.AvailableVolume();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                {
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        transports.Add((Transport)semitrailer);
+                    else
+                        transports.Add(v1);
+                }
+                SaxParser.AddInXml(transports, pathForSaveChange);
+                return semitrailer.MassOfGoods;
+            }
 
-        public double OpportunitiesOfLogisticiansMinusGood(TruckTractor truckTractor, string typeOfGoods, double mass)
-        {
-            Semitrailer semitrailer = new Semitrailer();
-            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
-                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
-                    semitrailer = (Semitrailer)v1;
-            if (semitrailer.MassOfGoods - mass >= 0 && semitrailer.TypeOfGoods == typeOfGoods)
-                semitrailer.MassOfGoods = semitrailer.MassOfGoods - mass;
-            return semitrailer.MassOfGoods;
-        }
-        public double OpportunitiesOfLogisticiansMinusAllGood(TruckTractor truckTractor, string typeOfGoods)
-        {
-            Semitrailer semitrailer = new Semitrailer();
-            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
-                if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
-                    semitrailer = (Semitrailer)v1;
-            if (semitrailer.MassOfGoods > 0 && semitrailer.TypeOfGoods == typeOfGoods)
-                semitrailer.MassOfGoods = 0;
-            return semitrailer.MassOfGoods;
-        }
-        public TruckTractor ReplaceSemitrailer(TruckTractor truckTractor, Semitrailer semitrailer)
-        {
-            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
-                if (v1 is TruckTractor && v1 == truckTractor)
-                    truckTractor = (TruckTractor)v1;
-            truckTractor.Semitrailer = semitrailer.ToString();
-            return truckTractor;
-        }
-        public TruckTractor DeleteSemitrailer(TruckTractor truckTractor)
-        {
-            foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
-                if (v1 is TruckTractor && v1 == truckTractor)
-                    truckTractor = (TruckTractor)v1;
-            truckTractor.Semitrailer = "";
-            return truckTractor;
+            /// <summary>
+            /// method for unloading goods
+            /// </summary>
+            /// <param name="truckTractor">truck tractor</param>
+            /// <param name="typeOfGoods">type of goods</param>
+            /// <param name="mass">added mass</param>
+            /// <param name="pathForSaveChange">path for save change</param>
+            /// <returns>new mass</returns>
+            public double OpportunitiesOfLogisticiansMinusGood(TruckTractor truckTractor, string typeOfGoods, double mass, string pathForSaveChange)
+            {
+                List<Transport> transports = new List<Transport>();
+
+                Semitrailer semitrailer = new Semitrailer();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        semitrailer = (Semitrailer)v1;
+                if (semitrailer.MassOfGoods - mass >= 0 && semitrailer.TypeOfGoods == typeOfGoods)
+                    semitrailer.MassOfGoods = semitrailer.MassOfGoods - mass;
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                {
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        transports.Add((Transport)semitrailer);
+                    else
+                        transports.Add(v1);
+                }
+                SaxParser.AddInXml(transports, pathForSaveChange);
+                return semitrailer.MassOfGoods;
+            }
+            /// <summary>
+            /// method for unloading goods
+            /// </summary>
+            /// <param name="truckTractor">truck tractor</param>
+            /// <param name="typeOfGoods">type of goods</param>
+            /// <param name="pathForSaveChange">path for save change</param>
+            /// <returns>new mass</returns>
+            public double OpportunitiesOfLogisticiansMinusAllGood(TruckTractor truckTractor, string typeOfGoods, string pathForSaveChange)
+            {
+                List<Transport> transports = new List<Transport>();
+
+                Semitrailer semitrailer = new Semitrailer();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        semitrailer = (Semitrailer)v1;
+                if (semitrailer.MassOfGoods > 0 && semitrailer.TypeOfGoods == typeOfGoods)
+                    semitrailer.MassOfGoods = 0;
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                {
+                    if (v1 is Semitrailer && v1.ToString() == truckTractor.Semitrailer)
+                        transports.Add((Transport)semitrailer);
+                    else
+                        transports.Add(v1);
+                }
+                SaxParser.AddInXml(transports, pathForSaveChange);
+
+                return semitrailer.MassOfGoods;
+            }
+            /// <summary>
+            /// Method for replace semitrailer
+            /// </summary>
+            /// <param name="truckTractor">truck tractor</param>
+            /// <param name="semitrailer">semitrailer</param>
+            /// <param name="pathForSaveChange">path for save change</param>
+            /// <returns>truck tractor</returns>
+            public TruckTractor ReplaceSemitrailer(TruckTractor truckTractor, Semitrailer semitrailer, string pathForSaveChange)
+            {
+                List<Transport> transports = new List<Transport>();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                    if (v1 is TruckTractor && v1 == truckTractor)
+                        truckTractor = (TruckTractor)v1;
+                
+          
+                truckTractor.Semitrailer = semitrailer.ToString();
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                {
+                    if (v1 is TruckTractor && v1.Name == truckTractor.Name)
+                        transports.Add((Transport)truckTractor);
+                    else
+                        transports.Add(v1);
+                }
+                SaxParser.AddInXml(transports, pathForSaveChange);
+
+                return truckTractor;
+            }
+            /// <summary>
+            /// Method for delete semitrailer
+            /// </summary>
+            /// <param name="truckTractor">truck tractor</param>
+            /// <param name="pathForSaveChange">path for save change</param>
+            /// <returns>truck tractor</returns>
+            public TruckTractor DeleteSemitrailer(TruckTractor truckTractor, string pathForSaveChange)
+            {
+                List<Transport> transports = new List<Transport>();
+
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml")) 
+                    if (v1 is TruckTractor && v1 == truckTractor)
+                        truckTractor = (TruckTractor)v1;
+                truckTractor.Semitrailer = "";
+                foreach (var v1 in SaxParser.SaxParsing(@"../../CarPark.xml"))
+                {
+                    if (v1 is TruckTractor && v1.Name == truckTractor.Name)
+                        transports.Add((Transport)truckTractor);
+                    else
+                        transports.Add(v1);
+                }
+                SaxParser.AddInXml(transports, pathForSaveChange);
+                return truckTractor;
+            }
         }
     }
 }

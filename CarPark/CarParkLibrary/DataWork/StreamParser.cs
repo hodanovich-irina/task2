@@ -8,8 +8,16 @@ using System.Xml;
 
 namespace CarParkLibrary.DataWork
 {
+    /// <summary>
+    /// CLass for load and save with stream
+    /// </summary>
     public class StreamParser
     {
+        /// <summary>
+        /// Method for load document
+        /// </summary>
+        /// <param name="path">path</param>
+        /// <returns>XmlDocument</returns>
         public XmlDocument LoadDocument(String path)
         {
             XmlDocument document = new XmlDocument();
@@ -19,7 +27,12 @@ namespace CarParkLibrary.DataWork
             }
             return (document);
         }
-
+        /// <summary>
+        /// Method for save document
+        /// </summary>
+        /// <param name="document">XmlDocument</param>
+        /// <param name="path">path</param>
+        /// <returns>XmlDocument</returns>
         public XmlDocument SaveDocument(XmlDocument document, String path)
         {
             using (StreamWriter stream = new StreamWriter(path, false))
