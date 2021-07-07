@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace CarParkLibraryUnitTestProject
 {
+    /// <summary>
+    /// Class for testing CarParkLibrary
+    /// </summary>
     [TestClass]
     public class CarParkLibraryUnitTest
     {
@@ -360,6 +363,33 @@ namespace CarParkLibraryUnitTestProject
             TruckTractor truckTractor = new TruckTractor();
             truckTractor = work1.DeleteSemitrailer((TruckTractor)transport4 ,@"../../SaveChange.xml"); 
             Assert.AreEqual("", truckTractor.Semitrailer);
+        }
+        /// <summary>
+        /// Add in xml object from new class
+        /// </summary>
+        [TestMethod]
+        public void TestMethodAddInXmlObjNewClass()
+        {
+            List<Transport> w = new List<Transport>();
+            TankTruck transport1 = new TankTruck("Renault", 36, "Бензин", "+5", 17, 10, ViewFuel.AI92);
+            TruckTractor transport = new TruckTractor("MAZ", 40, 10, transport1.ToString());
+            TruckTractor transport3 = new TruckTractor("Volvo", 77, 12, "");
+            Refrigerator transport2 = new Refrigerator("Wielton NJ 3", 66, "Молоко", "+3 - +5", 6, 2);
+            TruckTractor transport4 = new TruckTractor("Ford", 33, 8, transport2.ToString());
+            TruckTractor transport5 = new TruckTractor("Scania", 55, 10, transport3.ToString());
+            Refrigerator transport6 = new Refrigerator("Montracon", 32, "Рыба", "-15 - -25", 10, 12);
+            ContainerShip transport7 = new ContainerShip("Grunwald", 32, "Контейнерные цистерны", "+2 - +22", 7, 15);
+            w.Add(transport);
+            w.Add(transport1);
+            w.Add(transport2);
+            w.Add(transport3);
+            w.Add(transport4);
+            w.Add(transport5);
+            w.Add(transport6);
+            w.Add(transport7); 
+            SaxParser.AddInXml(w, @"../../CarPark.xml");
+            var x = SaxParser.SaxParsing(@"../../CarPark.xml");
+            CollectionAssert.AreEqual(x, w);
         }
     }
 }
