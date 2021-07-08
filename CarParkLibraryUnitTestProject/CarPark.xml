@@ -42,11 +42,4 @@
     <mass>10</mass>
     <massOfGoods>12</massOfGoods>
   </Refrigerator>
-  <Semitrailer name="Grunwald">
-    <maxMass>32</maxMass>
-    <typeOfGoods>Контейнерные цистерны</typeOfGoods>
-    <storageConditions>+2 - +22</storageConditions>
-    <mass>7</mass>
-    <massOfGoods>15</massOfGoods>
-  </Semitrailer>
 </transport>

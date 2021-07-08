@@ -23,12 +23,12 @@
   <TruckTractor name="Volvo">
     <maxMass>77</maxMass>
     <fuelConsumption>12</fuelConsumption>
-    <semitrailer></semitrailer>
+    <semitrailer>Renault(36)</semitrailer>
   </TruckTractor>
   <TruckTractor name="Ford">
     <maxMass>33</maxMass>
     <fuelConsumption>8</fuelConsumption>
-    <semitrailer></semitrailer>
+    <semitrailer>Wielton NJ 3(66)</semitrailer>
   </TruckTractor>
   <TruckTractor name="Scania">
     <maxMass>55</maxMass>
